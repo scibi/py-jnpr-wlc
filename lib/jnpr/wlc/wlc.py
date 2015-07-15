@@ -191,7 +191,8 @@ class WirelessLanController(object):
     auth_mgr.add_password( None, self._api_uri, self._user, self._password )
     auth_hndlr = HTTPBasicAuthHandler(auth_mgr)
     http_hndlr = HTTPHandler(debuglevel=0)
-    https_hndlr = HTTPSHandler(debuglevel=0)
+    import ssl
+    https_hndlr = HTTPSHandler(debuglevel=0, context=ssl._create_unverified_context())
     self._http_api = build_opener(auth_hndlr, https_hndlr, http_hndlr)
     self._auth_base64 = base64.encodestring('%s:%s' % (self._user, self._password))[:-1]          
 
